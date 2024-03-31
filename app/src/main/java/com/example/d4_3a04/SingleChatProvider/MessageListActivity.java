@@ -1,0 +1,97 @@
+package com.example.d4_3a04.SingleChatProvider;
+
+import android.os.Bundle;
+import android.text.format.Time;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.d4_3a04.DataTypes.ChatInfo;
+import com.example.d4_3a04.DataTypes.LogEntity;
+import com.example.d4_3a04.R;
+import com.example.d4_3a04.databinding.ActivityMainBinding;
+import com.example.d4_3a04.databinding.SingleChatProviderBinding;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+public class MessageListActivity extends AppCompatActivity {
+
+    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+
+    private SingleChatProvider provider;
+    private RecyclerView MessageRecycler;
+    private MessageListAdapter MessageAdapter;
+    private SingleChatProviderBinding binding;
+
+    private ChatInfo chat_info;
+
+    private String employee_id1 = "21829281";
+    private String employee_id2 = "22122221";
+
+    private String employee_id;
+
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+        binding = SingleChatProviderBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
+
+        this.employee_id = employee_id1;
+        this.provider = new SingleChatProvider();
+        createChatInfo(employee_id1, employee_id2);
+
+
+        this.MessageRecycler = (RecyclerView) findViewById(R.id.recycler_gchat);
+        this.MessageAdapter = new MessageListAdapter(this, chat_info, this.employee_id);
+
+        this.MessageRecycler.setLayoutManager(new LinearLayoutManager(this));
+        this.MessageRecycler.setAdapter(this.MessageAdapter);
+
+
+        binding.buttonGchatSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText t = (EditText) findViewById(R.id.edit_gchat_message);
+                Date c = Calendar.getInstance().getTime();
+                Time now = new Time();
+
+                String message = t.getText().toString();
+                LogEntity entity = new LogEntity(employee_id, message, c, now, "2921902");
+                chat_info.addLog(entity);
+
+                MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), chat_info.getLog_history().size()-1);
+
+
+
+//                Snackbar.make(view,message, Snackbar.LENGTH_LONG)
+//                        .setAnchorView(R.id.button_gchat_send)
+//                        .setAction("Action", null).show();
+            }
+        });
+
+    }
+
+    private void createChatInfo(String employee_id1, String employee_id2){
+        this.chat_info = new ChatInfo(this.provider);
+
+        this.chat_info.addUser(employee_id1);
+        this.chat_info.addUser(employee_id2);
+    }
+
+
+
+
+}

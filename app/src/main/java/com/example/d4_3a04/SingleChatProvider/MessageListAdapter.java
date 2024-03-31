@@ -1,6 +1,7 @@
 package com.example.d4_3a04.SingleChatProvider;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ public class MessageListAdapter extends RecyclerView.Adapter{
 
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
-
 
     private ChatInfo chat_info;
     private Context context;
@@ -54,6 +54,8 @@ public class MessageListAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         LogEntity message = this.messages.get(position);
+
+        Log.d("STATUS", message.getMessage());
 
         switch(holder.getItemViewType()){
             case VIEW_TYPE_MESSAGE_SENT:

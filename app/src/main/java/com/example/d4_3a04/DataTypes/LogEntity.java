@@ -1,6 +1,7 @@
 package com.example.d4_3a04.DataTypes;
 
-import java.sql.Time;
+import android.text.format.Time;
+
 import java.util.Date;
 
 public class LogEntity {
