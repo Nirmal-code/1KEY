@@ -21,4 +21,12 @@ public class LogEntity {
     public String getMessage(){
         return this.message;
     }
+
+    public String getEmployee_id(){
+        return this.employee_id;
+    }
+
+    public Time getTime(){
+        return this.time;
+    }
 }

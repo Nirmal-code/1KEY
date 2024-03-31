@@ -2,6 +2,7 @@ package com.example.d4_3a04.DataTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.d4_3a04.SingleChatProvider.SingleChatProvider;
 
 public class ChatInfo implements InfoEntity{
     private List<String> employee_ids;
