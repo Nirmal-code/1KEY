@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class MessageListActivity extends AppCompatActivity {
 
-    private SingleChatProvider provider;
+    private SingleChatManager provider;
     private RecyclerView MessageRecycler;
     private MessageListAdapter MessageAdapter;
     private SingleChatProviderBinding binding;
@@ -50,7 +50,7 @@ public class MessageListActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         this.employee_id = employee_id1;
-        this.provider = new SingleChatProvider();
+        this.provider = new SingleChatManager();
         createChatInfo(employee_id1, employee_id2);
 
 

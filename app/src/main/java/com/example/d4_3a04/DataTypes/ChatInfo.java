@@ -1,16 +1,17 @@
 package com.example.d4_3a04.DataTypes;
 
+import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.example.d4_3a04.SingleChatProvider.SingleChatProvider;
 
 public class ChatInfo implements InfoEntity{
     private List<String> employee_ids;
     private List<LogEntity> log_history;
-    private SingleChatProvider provider;
+    private SingleChatManager provider;
 
 
-    public ChatInfo(SingleChatProvider new_provider){
+    public ChatInfo(SingleChatManager new_provider){
         this.provider = new_provider;
         this.employee_ids = new ArrayList<>();
         this.log_history = new ArrayList<LogEntity>();
@@ -25,7 +26,7 @@ public class ChatInfo implements InfoEntity{
         return this.employee_ids;
     }
 
-    public SingleChatProvider getProvider(){
+    public SingleChatManager getProvider(){
         return this.provider;
     }
 
