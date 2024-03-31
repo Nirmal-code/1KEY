@@ -55,7 +55,6 @@ public class MessageListAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         LogEntity message = this.messages.get(position);
 
-        Log.d("STATUS", message.getMessage());
 
         switch(holder.getItemViewType()){
             case VIEW_TYPE_MESSAGE_SENT:
@@ -69,7 +68,7 @@ public class MessageListAdapter extends RecyclerView.Adapter{
     public int getItemViewType(int position){
         LogEntity message =this.messages.get(position);
 
-        if (message.getEmployee_id().equals(this.employee_id)){
+        if (message.employee_id.equals(this.employee_id)){
             return VIEW_TYPE_MESSAGE_SENT;
         }else{
             return VIEW_TYPE_MESSAGE_RECEIVED;
@@ -83,35 +82,39 @@ public class MessageListAdapter extends RecyclerView.Adapter{
 }
 
 class SentMessageHolder extends RecyclerView.ViewHolder{
-    TextView messageText, timeText;
+    TextView messageText, timeText, dateText;
 
     SentMessageHolder(View itemView){
         super(itemView);
 
         messageText = (TextView) itemView.findViewById(R.id.text_gchat_message_me);
         timeText = (TextView) itemView.findViewById(R.id.text_gchat_timestamp_me);
+        dateText = (TextView) itemView.findViewById(R.id.text_date_me);
     }
 
     void bind(LogEntity message){
-        messageText.setText(message.getMessage());
-        timeText.setText(message.getTime().toString());
+        messageText.setText(message.message);
+        timeText.setText(message.time);
+        dateText.setText(message.date);
     }
 }
 
 class ReceivedMessageHolder extends RecyclerView.ViewHolder{
-    TextView messageText, timeText, nameText;
+    TextView messageText, timeText, nameText, dateText;
 
     ReceivedMessageHolder(View itemView){
         super(itemView);
         messageText = (TextView) itemView.findViewById(R.id.text_gchat_message_other);
         timeText = (TextView) itemView.findViewById(R.id.text_gchat_timestamp_other);
         nameText = (TextView) itemView.findViewById(R.id.text_gchat_user_other);
+        dateText = (TextView) itemView.findViewById(R.id.text_date_other);
     }
 
     void bind(LogEntity message){
-        messageText.setText(message.getMessage());
-        timeText.setText(message.getTime().toString());
-        nameText.setText(message.getEmployee_id());
+        messageText.setText(message.message);
+        timeText.setText(message.time);
+        nameText.setText(message.employee_id);
+        dateText.setText(message.date);
     }
 
 

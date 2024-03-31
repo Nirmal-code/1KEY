@@ -1,10 +1,12 @@
 package com.example.d4_3a04.SingleChatProvider;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,8 +29,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MessageListActivity extends AppCompatActivity {
-
-    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
     private SingleChatProvider provider;
     private RecyclerView MessageRecycler;
@@ -65,20 +65,18 @@ public class MessageListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText t = (EditText) findViewById(R.id.edit_gchat_message);
-                Date c = Calendar.getInstance().getTime();
-                Time now = new Time();
+                Date date_time = Calendar.getInstance().getTime();
 
                 String message = t.getText().toString();
-                LogEntity entity = new LogEntity(employee_id, message, c, now, "2921902");
+                LogEntity entity = new LogEntity(employee_id, message, date_time, "2921902");
                 chat_info.addLog(entity);
 
                 MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), chat_info.getLog_history().size()-1);
 
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(MessageRecycler.getWindowToken(), 0);
 
-
-//                Snackbar.make(view,message, Snackbar.LENGTH_LONG)
-//                        .setAnchorView(R.id.button_gchat_send)
-//                        .setAction("Action", null).show();
+                t.getText().clear();
             }
         });
 
