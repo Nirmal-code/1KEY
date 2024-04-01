@@ -53,7 +53,7 @@ public class MessageListActivity extends AppCompatActivity {
         this.employee_id = intent.getStringExtra("Employee_id");
 
         // Single Chat Manager has idea of which employee is main, and secondary ones.
-        this.provider = (SingleChatManager) getIntent().getSerializableExtra("KEY_NAME");
+        this.provider = (SingleChatManager) getIntent().getSerializableExtra("SCM");
         this.chat_info = provider.chat_info;
 
 

@@ -41,7 +41,7 @@ public class SingleChatManager implements Serializable {
 
     }
 
-    public void inflate_page_source(AppCompatActivity activity, Context context){
+    public void inflate_page_source(AppCompatActivity activity){
         Intent intent = new Intent(activity, MessageListActivity.class);
         intent.putExtra("Employee_id", this.this_employee);
         intent.putExtra("SCM", this);

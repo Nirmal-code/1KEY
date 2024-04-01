@@ -2,10 +2,11 @@ package com.example.d4_3a04.DataTypes;
 
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatInfo implements InfoEntity{
+public class ChatInfo implements InfoEntity, Serializable {
     private List<String> employee_ids;
     private List<LogEntity> log_history;
     private SingleChatManager provider;
