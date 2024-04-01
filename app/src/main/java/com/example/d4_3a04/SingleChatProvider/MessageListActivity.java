@@ -1,6 +1,7 @@
 package com.example.d4_3a04.SingleChatProvider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.LayoutInflater;
@@ -37,8 +38,6 @@ public class MessageListActivity extends AppCompatActivity {
 
     private ChatInfo chat_info;
 
-    private String employee_id1 = "21829281";
-    private String employee_id2 = "22122221";
 
     private String employee_id;
 
@@ -49,9 +48,13 @@ public class MessageListActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        this.employee_id = employee_id1;
-        this.provider = new SingleChatManager();
-        createChatInfo(employee_id1, employee_id2);
+        Intent intent = getIntent();
+
+        this.employee_id = intent.getStringExtra("Employee_id");
+
+        // Single Chat Manager has idea of which employee is main, and secondary ones.
+        this.provider = (SingleChatManager) getIntent().getSerializableExtra("KEY_NAME");
+        this.chat_info = provider.chat_info;
 
 
         this.MessageRecycler = (RecyclerView) findViewById(R.id.recycler_gchat);
@@ -65,13 +68,10 @@ public class MessageListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText t = (EditText) findViewById(R.id.edit_gchat_message);
-                Date date_time = Calendar.getInstance().getTime();
 
-                String message = t.getText().toString();
-                LogEntity entity = new LogEntity(employee_id, message, date_time, "2921902");
-                chat_info.addLog(entity);
+                int size = provider.updateChatLog(t.getText().toString());
 
-                MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), chat_info.getLog_history().size()-1);
+                MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), size-1);
 
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(MessageRecycler.getWindowToken(), 0);
