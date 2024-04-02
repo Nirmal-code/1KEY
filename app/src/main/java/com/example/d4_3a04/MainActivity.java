@@ -48,20 +48,21 @@ public class MainActivity extends AppCompatActivity {
         SingleChatManager provider = new SingleChatManager("Nirmal", "Bob");
 
         DatabaseHelper dbh = new DatabaseHelper(this);
-        List<String> res = dbh.getNames();
+        List<String> res = dbh.getNames("Nirmal", "Bob");
 
         if (res.size()>0){
             provider = SingleChatManager.deserializeFromJson(res.get(0));
             ChatInfo data = provider.chat_info;
-            for (LogEntity instance: data.getLog_history()){
-                Log.d("LOGG", instance.message);
-            }
+//            for (LogEntity instance: data.getLog_history()){
+//                Log.d("LOGG", instance.message);
+//            }
         }else{
             dbh.addEntry("Nirmal", "Bob", provider);
         }
 
 
         SingleChatManager finalProvider = provider;
+
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -45,13 +45,17 @@ public class SingleChatManager implements Serializable {
         LogEntity entity = new LogEntity(this.this_employee, message, date_time, "2921902");
         chat_info.addLog(entity);
 
+
+
         return chat_info.getLog_history().size();
     }
 
     public void inflate_page_source(AppCompatActivity activity){
         Intent intent = new Intent(activity, MessageListActivity.class);
         intent.putExtra("Employee_id", this.this_employee);
-        intent.putExtra("SCM", this);
+
+        // Problem: this reference is creating a copy of the original.
+        intent.putExtra("SCM", SingleChatManager.serializeToJson(this));
         activity.startActivity(intent);
     }
 

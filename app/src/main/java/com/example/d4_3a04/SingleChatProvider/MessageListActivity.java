@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
+import com.example.d4_3a04.MainActivity;
 import com.example.d4_3a04.R;
+import com.example.d4_3a04.database.DatabaseHelper;
 import com.example.d4_3a04.databinding.ActivityMainBinding;
 import com.example.d4_3a04.databinding.SingleChatProviderBinding;
 import com.google.android.material.snackbar.Snackbar;
@@ -53,7 +56,8 @@ public class MessageListActivity extends AppCompatActivity {
         this.employee_id = intent.getStringExtra("Employee_id");
 
         // Single Chat Manager has idea of which employee is main, and secondary ones.
-        this.provider = (SingleChatManager) getIntent().getSerializableExtra("SCM");
+        this.provider = SingleChatManager.deserializeFromJson(intent.getStringExtra("SCM"));
+
         this.chat_info = provider.chat_info;
 
 
@@ -79,6 +83,16 @@ public class MessageListActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(MessageRecycler.getWindowToken(), 0);
 
                 t.getText().clear();
+
+
+            }
+        });
+
+        binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MessageListActivity.this, MainActivity.class);
+                MessageListActivity.this.startActivity(intent);
             }
         });
 

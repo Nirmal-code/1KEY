@@ -14,12 +14,19 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_gchannel"
-            android:layout_width="match_parent"
+            android:layout_width="121dp"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/Widget.AppCompat.Toolbar"
             app:popupTheme="@style/Theme.AppCompat.Light">
+
+            <Button
+                android:id="@+id/toolbar_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Back" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
