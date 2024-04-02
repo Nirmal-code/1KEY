@@ -1,18 +1,12 @@
 package com.example.d4_3a04.SingleChatProvider;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.util.Base64;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
-import com.example.d4_3a04.database.Cryptosystem;
-import com.example.d4_3a04.database.DatabaseHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,7 +14,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.d4_3a04.MainActivity;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 
 import java.util.List;

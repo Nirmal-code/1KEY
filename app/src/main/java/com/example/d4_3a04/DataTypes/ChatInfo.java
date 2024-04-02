@@ -1,6 +1,5 @@
 package com.example.d4_3a04.DataTypes;
 
-import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;

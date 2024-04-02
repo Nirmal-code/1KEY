@@ -3,35 +3,20 @@ package com.example.d4_3a04.SingleChatProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.Time;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.d4_3a04.BrowseActiveChats;
 import com.example.d4_3a04.DataTypes.ChatInfo;
-import com.example.d4_3a04.DataTypes.LogEntity;
-import com.example.d4_3a04.MainActivity;
 import com.example.d4_3a04.R;
 import com.example.d4_3a04.database.Cryptosystem;
-import com.example.d4_3a04.database.DatabaseHelper;
-import com.example.d4_3a04.databinding.ActivityMainBinding;
 import com.example.d4_3a04.databinding.SingleChatProviderBinding;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class MessageListActivity extends AppCompatActivity {
 
@@ -94,7 +79,7 @@ public class MessageListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Cryptosystem.updateEntry(provider, employee_id, "Bob");
-                Intent intent = new Intent(MessageListActivity.this, MainActivity.class);
+                Intent intent = new Intent(MessageListActivity.this, BrowseActiveChats.class);
                 MessageListActivity.this.startActivity(intent);
             }
         });

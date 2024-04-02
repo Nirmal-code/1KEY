@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.d4_3a04.FirstFragment"
+        android:name="com.example.d4_3a04.BrowseActive"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/browse_active">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
