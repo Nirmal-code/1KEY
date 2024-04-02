@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.database.DatabaseHelper;
 import com.example.d4_3a04.databinding.ActivityMainBinding;
 
@@ -32,9 +33,16 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
+    SingleChatManager provider;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Cryptosystem.startDB(MainActivity.this);
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -45,28 +53,24 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        SingleChatManager provider = new SingleChatManager("Nirmal", "Bob");
-
-        DatabaseHelper dbh = new DatabaseHelper(this);
-        List<String> res = dbh.getNames("Nirmal", "Bob");
-
-        if (res.size()>0){
-            provider = SingleChatManager.deserializeFromJson(res.get(0));
-            ChatInfo data = provider.chat_info;
-//            for (LogEntity instance: data.getLog_history()){
-//                Log.d("LOGG", instance.message);
-//            }
-        }else{
-            dbh.addEntry("Nirmal", "Bob", provider);
-        }
-
-
-        SingleChatManager finalProvider = provider;
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalProvider.inflate_page_source(MainActivity.this);
+                List<String> res = Cryptosystem.getNames("Nirmal", "Bob");
+
+                if (res.size()>0){
+                    provider = SingleChatManager.deserializeFromJson(res.get(0));
+                    Log.d("PExtracted", provider.toString());
+
+                }else{
+                    ChatInfo chat_info = new ChatInfo();
+                    provider = new SingleChatManager("Nirmal", "Bob", chat_info);;
+//                    provider.updateChatLog("Hello World");
+                    Log.d("PInitial", provider.toString());
+                    Cryptosystem.updateEntry(provider,"Nirmal", "Bob");
+                }
+                provider.inflate_page_source(MainActivity.this);
             }
         });
     }

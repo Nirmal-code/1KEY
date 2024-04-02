@@ -7,14 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatInfo implements InfoEntity, Serializable {
-//    private static final long serialVersionUID = -3727220539856468472L;
+    private static final long serialVersionUID = -3727220539856468472L;
     private List<String> employee_ids;
     private List<LogEntity> log_history;
-    private SingleChatManager provider;
 
 
-    public ChatInfo(SingleChatManager new_provider){
-        this.provider = new_provider;
+    public ChatInfo(){
         this.employee_ids = new ArrayList<>();
         this.log_history = new ArrayList<LogEntity>();
     }
@@ -26,10 +24,6 @@ public class ChatInfo implements InfoEntity, Serializable {
 
     public List<String> getEmployee_ids(){
         return this.employee_ids;
-    }
-
-    public SingleChatManager getProvider(){
-        return this.provider;
     }
 
     public List<LogEntity> getLog_history(){

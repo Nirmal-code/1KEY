@@ -22,6 +22,7 @@ import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
 import com.example.d4_3a04.MainActivity;
 import com.example.d4_3a04.R;
+import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.database.DatabaseHelper;
 import com.example.d4_3a04.databinding.ActivityMainBinding;
 import com.example.d4_3a04.databinding.SingleChatProviderBinding;
@@ -55,6 +56,7 @@ public class MessageListActivity extends AppCompatActivity {
 
         this.employee_id = intent.getStringExtra("Employee_id");
 
+        String test = intent.getStringExtra("SCM");
         // Single Chat Manager has idea of which employee is main, and secondary ones.
         this.provider = SingleChatManager.deserializeFromJson(intent.getStringExtra("SCM"));
 
@@ -91,6 +93,7 @@ public class MessageListActivity extends AppCompatActivity {
         binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Cryptosystem.updateEntry(provider, employee_id, "Bob");
                 Intent intent = new Intent(MessageListActivity.this, MainActivity.class);
                 MessageListActivity.this.startActivity(intent);
             }

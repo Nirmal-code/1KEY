@@ -16,14 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteAssetHelper implements Serializable {
-    SQLiteDatabase writer = getWritableDatabase();
-    SQLiteDatabase reader = getWritableDatabase();
+    SQLiteDatabase writer;
+    SQLiteDatabase reader;
 
 
 
     public DatabaseHelper(Context context) {
         super(context, "providers.db", null, 1);
-//        createTable();
+        writer = getWritableDatabase();
+        reader = getReadableDatabase();
+        createTable();
     }
 
     public void createTable(){
@@ -49,11 +51,12 @@ public class DatabaseHelper extends SQLiteAssetHelper implements Serializable {
 
     public void updateEntry(SingleChatManager provider, String this_employee, String other_employee){
         //On back button, just update the database entry!
-        String serialized = SingleChatManager.serializeToJson(provider);
-        String UPDATE_TBL = "update  Providers\n"+
-                "set _provider="+serialized+
-                "where this_employee="+this_employee;
-        writer.execSQL(UPDATE_TBL);
+        String[] args = {this_employee};
+        writer.delete("Providers", "this_employee=?", args);
+
+        Log.d("P_new", provider.toString());
+
+        addEntry(this_employee, other_employee, provider);
     }
 
     public List<String> getNames(String this_employee, String other_employee){

@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
+import com.example.d4_3a04.database.Cryptosystem;
+import com.example.d4_3a04.database.DatabaseHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,11 +33,11 @@ public class SingleChatManager implements Serializable {
     List<String> other_employees = new ArrayList<>();
     public ChatInfo chat_info;
 
-    public SingleChatManager(String this_employee, String other_employee){
+    public SingleChatManager(String this_employee, String other_employee, ChatInfo chat_info){
         this.this_employee = this_employee;
         this.other_employees.add(other_employee);
 
-        this.chat_info = new ChatInfo(this);
+        this.chat_info = chat_info;
     }
 
     // Outputs how many logs there are in total.
@@ -56,8 +58,10 @@ public class SingleChatManager implements Serializable {
 
         // Problem: this reference is creating a copy of the original.
         intent.putExtra("SCM", SingleChatManager.serializeToJson(this));
+
         activity.startActivity(intent);
     }
+
 
     public static String serializeToJson(SingleChatManager object) {
         try {
