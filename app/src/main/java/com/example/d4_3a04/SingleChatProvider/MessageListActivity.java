@@ -63,6 +63,8 @@ public class MessageListActivity extends AppCompatActivity {
         this.MessageRecycler.setLayoutManager(new LinearLayoutManager(this));
         this.MessageRecycler.setAdapter(this.MessageAdapter);
 
+        loadChat();
+
 
         binding.buttonGchatSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +84,11 @@ public class MessageListActivity extends AppCompatActivity {
 
     }
 
-    private void createChatInfo(String employee_id1, String employee_id2){
-        this.chat_info = new ChatInfo(this.provider);
+    public void loadChat(){
+        for (int i=0; i<this.chat_info.getLog_history().size(); i++){
+            MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), i);
+        }
 
-        this.chat_info.addUser(employee_id1);
-        this.chat_info.addUser(employee_id2);
     }
 
 

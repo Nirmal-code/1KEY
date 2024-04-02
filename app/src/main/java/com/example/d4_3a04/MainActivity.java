@@ -2,23 +2,30 @@ package com.example.d4_3a04;
 
 import android.os.Bundle;
 
+import com.example.d4_3a04.DataTypes.ChatInfo;
+import com.example.d4_3a04.DataTypes.LogEntity;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
-import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.d4_3a04.database.DatabaseHelper;
 import com.example.d4_3a04.databinding.ActivityMainBinding;
+
+
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,14 +47,25 @@ public class MainActivity extends AppCompatActivity {
 
         SingleChatManager provider = new SingleChatManager("Nirmal", "Bob");
 
+        DatabaseHelper dbh = new DatabaseHelper(this);
+        List<String> res = dbh.getNames();
 
+        if (res.size()>0){
+            provider = SingleChatManager.deserializeFromJson(res.get(0));
+            ChatInfo data = provider.chat_info;
+            for (LogEntity instance: data.getLog_history()){
+                Log.d("LOGG", instance.message);
+            }
+        }else{
+            dbh.addEntry("Nirmal", "Bob", provider);
+        }
+
+
+        SingleChatManager finalProvider = provider;
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                provider.inflate_page_source(MainActivity.this);
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAnchorView(R.id.fab)
-//                        .setAction("Action", null).show();
+                finalProvider.inflate_page_source(MainActivity.this);
             }
         });
     }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatInfo implements InfoEntity, Serializable {
+//    private static final long serialVersionUID = -3727220539856468472L;
     private List<String> employee_ids;
     private List<LogEntity> log_history;
     private SingleChatManager provider;
