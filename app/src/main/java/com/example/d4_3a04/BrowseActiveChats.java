@@ -24,7 +24,7 @@ public class BrowseActiveChats extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Cryptosystem.startDB(BrowseActiveChats.this);
+        Cryptosystem.startDB(BrowseActiveChats.this);
 
         binding = BrowseActiveChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
