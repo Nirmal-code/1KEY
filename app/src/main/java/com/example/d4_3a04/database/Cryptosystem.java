@@ -45,7 +45,7 @@ public class Cryptosystem extends AppCompatActivity {
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 // Currently using local ip address. Need to change in the future.
-                mysqlConnection = DriverManager.getConnection("jdbc:mysql://10.0.2.2:3306/testdb?useUnicode=true&characterEncoding=UTF-8", "root", "NemoC#1029");
+                mysqlConnection = DriverManager.getConnection("jdbc:mysql://10.0.2.2:3306/testdb?useUnicode=true&characterEncoding=UTF-8", "root", "PNJMR");
             }catch (Exception e){
                 throw new RuntimeException(e);
             }
