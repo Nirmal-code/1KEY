@@ -33,6 +33,8 @@ public class MessageListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        Cryptosystem.startDB(MessageListActivity.this);
+
         binding = SingleChatProviderBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
@@ -81,6 +83,7 @@ public class MessageListActivity extends AppCompatActivity {
                 Cryptosystem.updateEntry(provider, employee_id, "Bob");
                 Intent intent = new Intent(MessageListActivity.this, BrowseActiveChats.class);
                 MessageListActivity.this.startActivity(intent);
+                Cryptosystem.disconnectDB();
             }
         });
 

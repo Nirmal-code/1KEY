@@ -49,6 +49,7 @@ public class BrowseActiveChats extends AppCompatActivity {
                     Cryptosystem.updateEntry(provider,"Nirmal", "Bob");
                 }
                 provider.inflate_page_source(BrowseActiveChats.this);
+                Cryptosystem.disconnectDB();
             }
         });
     }
