@@ -20,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 public class SingleChatManager implements Serializable {
+    // Necessary for correct serialization/deserialization.
     private static final long serialVersionUID = -3727220539856468472L;
-
     String this_employee;
     List<String> other_employees = new ArrayList<>();
     public ChatInfo chat_info;
@@ -33,29 +33,29 @@ public class SingleChatManager implements Serializable {
         this.chat_info = chat_info;
     }
 
-    // Outputs how many logs there are in total.
+    // Updates the chat log with message and outputs how many logs there are in total.
     public int updateChatLog(String message){
         Date date_time = Calendar.getInstance().getTime();
 
         LogEntity entity = new LogEntity(this.this_employee, message, date_time, "2921902");
         chat_info.addLog(entity);
 
-
-
         return chat_info.getLog_history().size();
     }
 
+    // Starts the MessageListActivity page.
     public void inflate_page_source(AppCompatActivity activity){
         Intent intent = new Intent(activity, MessageListActivity.class);
-        intent.putExtra("Employee_id", this.this_employee);
 
-        // Problem: this reference is creating a copy of the original.
+        // Sends the employee id and SCM object to the activity object.
+        intent.putExtra("Employee_id", this.this_employee);
         intent.putExtra("SCM", SingleChatManager.serializeToJson(this));
 
         activity.startActivity(intent);
     }
 
 
+    // Serializes the SCM object to be stored in the database or to be sent to the activity.
     public static String serializeToJson(SingleChatManager object) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -71,6 +71,7 @@ public class SingleChatManager implements Serializable {
 
 
 
+    // Deserializes the SCM object to get the SCM object back from database or activity intent.
     public static SingleChatManager deserializeFromJson(String jsonString) {
         try {
             byte[] data = Base64.decode(jsonString, Base64.DEFAULT);

@@ -18,21 +18,26 @@ import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.SingleChatProviderBinding;
 
 
+// Code is adapted from https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui
 public class MessageListActivity extends AppCompatActivity {
 
+    // SCM instance for the page.
     private SingleChatManager provider;
     private RecyclerView MessageRecycler;
     private MessageListAdapter MessageAdapter;
     private SingleChatProviderBinding binding;
 
+    // Chat info object for the page. Derived from the SCM.
     private ChatInfo chat_info;
 
-
+    // Chat session logged in employee id.
+    // Don't need the other employee's id since LogEntity object only takes the id of the person sending it.
     private String employee_id;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        // Starts the database connection.
         Cryptosystem.startDB(MessageListActivity.this);
 
         binding = SingleChatProviderBinding.inflate(getLayoutInflater());
@@ -43,10 +48,7 @@ public class MessageListActivity extends AppCompatActivity {
 
         this.employee_id = intent.getStringExtra("Employee_id");
 
-        String test = intent.getStringExtra("SCM");
-        // Single Chat Manager has idea of which employee is main, and secondary ones.
         this.provider = SingleChatManager.deserializeFromJson(intent.getStringExtra("SCM"));
-
         this.chat_info = provider.chat_info;
 
 
@@ -56,14 +58,17 @@ public class MessageListActivity extends AppCompatActivity {
         this.MessageRecycler.setLayoutManager(new LinearLayoutManager(this));
         this.MessageRecycler.setAdapter(this.MessageAdapter);
 
+        // Load all the chat messages.
         loadChat();
 
 
+        // On click handler for when user wants to send the message.
         binding.buttonGchatSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText t = (EditText) findViewById(R.id.edit_gchat_message);
 
+                // Update chat log with provided message.
                 int size = provider.updateChatLog(t.getText().toString());
 
                 MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), size-1);
@@ -77,10 +82,11 @@ public class MessageListActivity extends AppCompatActivity {
             }
         });
 
+        // On Click handler for when user decides to go back.
         binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cryptosystem.updateEntry(provider, employee_id, "Bob");
+                Cryptosystem.updateEntry(provider, employee_id, provider.other_employees.get(0));
                 Intent intent = new Intent(MessageListActivity.this, BrowseActiveChats.class);
                 MessageListActivity.this.startActivity(intent);
                 Cryptosystem.disconnectDB();

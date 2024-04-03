@@ -26,19 +26,25 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Cryptosystem extends AppCompatActivity {
 
-    private static DatabaseHelper dbh;
 
+    // Object used for sql connection.
     static Connection mysqlConnection;
 
+
+    // Temporary, single key encryption/decryption.
     private static String key_val="JustAKey";
 
     public static void startDB(Context context){
+
+        //Checks if connection is not already made. If so, then create a new connection.
+
         if (mysqlConnection == null){
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
             try{
                 Class.forName("com.mysql.jdbc.Driver");
+                // Currently using local ip address. Need to change in the future.
                 mysqlConnection = DriverManager.getConnection("jdbc:mysql://10.0.2.2:3306/testdb?useUnicode=true&characterEncoding=UTF-8", "root", "NemoC#1029");
             }catch (Exception e){
                 throw new RuntimeException(e);
@@ -47,6 +53,7 @@ public class Cryptosystem extends AppCompatActivity {
         }
     }
 
+    // Closes the connection for good practice purposes (Can't stay connected forever)
     public static void disconnectDB(){
         try{
             mysqlConnection.close();
@@ -56,6 +63,7 @@ public class Cryptosystem extends AppCompatActivity {
         }
     }
 
+    // Adds entry into the table if not already there. Otherwise updates the provider entry.
     public static void updateEntry(SingleChatManager provider, String employee_id, String other_employee){
         try {
 
@@ -76,12 +84,11 @@ public class Cryptosystem extends AppCompatActivity {
 
     }
 
-    public static List<String> getNames(String this_employee, String other_employee){
-//        mysqlConnection = new Connection("localhost", "root", "NemoC#1029", 3306, "PROVIDERS", new IConnectionInterface());
-//
+    // Retrieve the provider given the ids of the two employees communicating.
+    public static List<String> getProvider(String this_employee, String other_employee){
+
         List<String> output = new ArrayList<>();
         try {
-            // Ensure mysqlConnection is properly initialized and connected
             Statement statement = mysqlConnection.createStatement();
 
             String encrypted_this_employee = encrypt(this_employee);
@@ -107,7 +114,6 @@ public class Cryptosystem extends AppCompatActivity {
 
         return output;
 
-//        return dbh.getNames(this_employee, other_employee);
     }
 
     // Encrypt and Decrypt code is obtained from open source repository: https://github.com/saeed74/Android-DES-Encryption/tree/master?tab=Apache-2.0-1-ov-file#readme

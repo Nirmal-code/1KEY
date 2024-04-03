@@ -24,6 +24,7 @@ public class BrowseActiveChats extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Starting the database connection.
         Cryptosystem.startDB(BrowseActiveChats.this);
 
 
@@ -37,18 +38,22 @@ public class BrowseActiveChats extends AppCompatActivity {
         binding.enterConvo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<String> res = Cryptosystem.getNames("Nirmal", "Bob");
+                // Getting the stored provider for given employee
+                List<String> res = Cryptosystem.getProvider("Nirmal", "Bob");
 
+                // Only creating a new provider if there is no provider for the employee (res.size()=0).
                 if (res.size()>0){
                     provider = SingleChatManager.deserializeFromJson(res.get(0));
                 }else{
                     ChatInfo chat_info = new ChatInfo();
                     provider = new SingleChatManager("Nirmal", "Bob", chat_info);;
-//                    provider.updateChatLog("Hello World");
-                    Log.d("PInitial", provider.toString());
                     Cryptosystem.updateEntry(provider,"Nirmal", "Bob");
                 }
+
+                // Open that conversation using given provider.
                 provider.inflate_page_source(BrowseActiveChats.this);
+
+                // Disconnect from the database.
                 Cryptosystem.disconnectDB();
             }
         });
