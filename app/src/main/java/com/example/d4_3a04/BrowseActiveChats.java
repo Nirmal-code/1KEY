@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.example.d4_3a04.databinding.SearchForBinding;
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 import com.example.d4_3a04.database.Cryptosystem;
@@ -19,6 +19,8 @@ public class BrowseActiveChats extends AppCompatActivity {
     private BrowseActiveChatBinding binding;
 
     SingleChatManager provider;
+
+    SearchFor searchProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,13 @@ public class BrowseActiveChats extends AppCompatActivity {
                     Cryptosystem.updateEntry(provider,"Nirmal", "Bob");
                 }
                 provider.inflate_page_source(BrowseActiveChats.this);
+            }
+        });
+
+        binding.enterSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchProvider.inflate_page_source(BrowseActiveChats.this);
             }
         });
     }
