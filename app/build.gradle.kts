@@ -31,7 +31,9 @@ android {
     }
 }
 
+
 dependencies {
+    implementation("com.github.BoardiesITSolutions:Android-MySQL-Connector:0.52_MySQL8")
     implementation("com.readystatesoftware.sqliteasset:sqliteassethelper:+")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -42,6 +44,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.3")
     implementation("com.fasterxml.jackson.core:jackson-core:2.10.3")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
+    implementation(files("libs/mariadb-java-client-3.3.3.jar"))
+    implementation(files("libs/mysql-connector-java-5.1.49.jar"))
     compileOnly("org.igniterealtime.smack:smack-android-extensions:4.2.0-alpha3")
     compileOnly("org.igniterealtime.smack:smack-tcp:4.2.0-alpha3")
 
