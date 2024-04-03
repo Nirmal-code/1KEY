@@ -58,7 +58,7 @@
                 android:id="@+id/enterConvo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Enter Convo 1" />
+                android:text="Nirmal" />
 
             <Button
                 android:id="@+id/enterConvo2"

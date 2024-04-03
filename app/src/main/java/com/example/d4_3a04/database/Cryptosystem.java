@@ -120,6 +120,33 @@ public class Cryptosystem extends AppCompatActivity {
 
     }
 
+    public static String getOtherEmployee(String employee){
+        String output = "";
+        try {
+            Statement statement = mysqlConnection.createStatement();
+
+            String encrypted_this_employee = encrypt(employee);
+
+            String COMMAND = String.format("SELECT other_employee " +
+                    "FROM providers " +
+                    "WHERE this_employee=\"%s\";", encrypted_this_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            // Move the cursor to the first row
+            if (result.next()) {
+                // Retrieve the value from the first column of the current row
+                String encrypted_provider = result.getString(1);
+                String provider = decrypt(encrypted_provider);
+                output=provider;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return output;
+    }
+
     // Encrypt and Decrypt code is obtained from open source repository: https://github.com/saeed74/Android-DES-Encryption/tree/master?tab=Apache-2.0-1-ov-file#readme
     // Repository has apache-2.0 licence. So its fine to use their code.
     // Uses DNS protocol.

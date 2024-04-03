@@ -3,6 +3,7 @@ package com.example.d4_3a04.SingleChatProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d4_3a04.BrowseActiveChats;
 import com.example.d4_3a04.DataTypes.ChatInfo;
+import com.example.d4_3a04.DataTypes.LogEntity;
 import com.example.d4_3a04.R;
 import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.SingleChatProviderBinding;
@@ -86,7 +88,8 @@ public class MessageListActivity extends AppCompatActivity {
         binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cryptosystem.updateEntry(provider, employee_id, provider.other_employees.get(0));
+                Cryptosystem.updateEntry(provider, employee_id, provider.other_employee);
+                Cryptosystem.updateEntry(provider, provider.other_employee, employee_id);
                 Intent intent = new Intent(MessageListActivity.this, BrowseActiveChats.class);
                 MessageListActivity.this.startActivity(intent);
                 Cryptosystem.disconnectDB();
@@ -97,7 +100,14 @@ public class MessageListActivity extends AppCompatActivity {
 
     public void loadChat(){
         for (int i=0; i<this.chat_info.getLog_history().size(); i++){
-            MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), i);
+            LogEntity entity = this.chat_info.getLog_history().get(i);
+            Log.d("EMP", entity.employee_id);
+            Log.d("EMP2", this.employee_id);
+            if (entity.employee_id.equals(this.employee_id)){
+                MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), i);
+            } else {
+                MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 2), i);
+            }
         }
 
     }

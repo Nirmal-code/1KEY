@@ -23,14 +23,19 @@ public class SingleChatManager implements Serializable {
     // Necessary for correct serialization/deserialization.
     private static final long serialVersionUID = -3727220539856468472L;
     String this_employee;
-    List<String> other_employees = new ArrayList<>();
+    String other_employee;
     public ChatInfo chat_info;
 
     public SingleChatManager(String this_employee, String other_employee, ChatInfo chat_info){
         this.this_employee = this_employee;
-        this.other_employees.add(other_employee);
+        this.other_employee=other_employee;
 
         this.chat_info = chat_info;
+    }
+
+    public void set_employee(String this_employee, String other_employee){
+        this.this_employee = this_employee;
+        this.other_employee = other_employee;
     }
 
     // Updates the chat log with message and outputs how many logs there are in total.
