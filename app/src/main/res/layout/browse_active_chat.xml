@@ -57,25 +57,25 @@
             <Button
                 android:id="@+id/enterConvo"
                 android:layout_width="match_parent"
-                android:layout_height="246dp"
+                android:layout_height="50dp"
                 android:text="Enter Convo 1" />
 
             <Button
                 android:id="@+id/enterConvo2"
                 android:layout_width="match_parent"
-                android:layout_height="246dp"
+                android:layout_height="50dp"
                 android:text="Enter Convo 2" />
 
             <Button
                 android:id="@+id/enterConvo3"
                 android:layout_width="match_parent"
-                android:layout_height="246dp"
+                android:layout_height="50dp"
                 android:text="Enter Convo 3" />
 
             <Button
                 android:id="@+id/enterConvo4"
                 android:layout_width="match_parent"
-                android:layout_height="246dp"
+                android:layout_height="50dp"
                 android:text="Enter Convo 4" />
 
         </LinearLayout>
