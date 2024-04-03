@@ -38,6 +38,7 @@ public class LoginPage extends AppCompatActivity {
 
                 // navigate to BrowseActiveChats page
                 Intent new_view = new Intent(LoginPage.this, BrowseActiveChats.class);
+
                 new_view.putExtra("Employee_id", company_email);
                 startActivity(new_view);
             }

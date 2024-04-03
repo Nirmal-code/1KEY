@@ -19,6 +19,7 @@ public class BrowseActiveChats extends AppCompatActivity {
 
     private BrowseActiveChatBinding binding;
     String employee_id;
+    String other_employee;
 
     SingleChatManager provider;
 
@@ -35,12 +36,20 @@ public class BrowseActiveChats extends AppCompatActivity {
         // Starting the database connection.
         Cryptosystem.startDB(BrowseActiveChats.this);
 
-//        String other_employee = Cryptosystem.getOtherEmployee(this.employee_id);
+        other_employee = Cryptosystem.getOtherEmployee(this.employee_id);
 
         binding = BrowseActiveChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbarActiveChat);
+
+        // For testing purposes. Will eventually be able to make requests.
+        if (other_employee.equals("")){
+            binding.enterConvo.setText("Bob");
+            other_employee = "Bob";
+        }else {
+            binding.enterConvo.setText(other_employee);
+        }
 
 
         binding.enterConvo.setOnClickListener(new View.OnClickListener() {
@@ -48,16 +57,16 @@ public class BrowseActiveChats extends AppCompatActivity {
             public void onClick(View view) {
                 // Getting the stored provider for given employee
 
-                List<String> res = Cryptosystem.getProvider(employee_id, "Nirmal");
+                List<String> res = Cryptosystem.getProvider(employee_id, other_employee);
 
                 // Only creating a new provider if there is no provider for the employee (res.size()=0).
                 if (res.size()>0){
                     provider = SingleChatManager.deserializeFromJson(res.get(0));
-                    provider.set_employee(employee_id, "Nirmal");
+                    provider.set_employee(employee_id, other_employee);
                 }else{
                     ChatInfo chat_info = new ChatInfo();
-                    provider = new SingleChatManager(employee_id, "Nirmal", chat_info);;
-                    Cryptosystem.updateEntry(provider,employee_id, "Nirmal");
+                    provider = new SingleChatManager(employee_id, other_employee, chat_info);;
+                    Cryptosystem.updateEntry(provider,employee_id, other_employee);
                 }
 
                 // Open that conversation using given provider.
