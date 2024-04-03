@@ -41,8 +41,6 @@ public class BrowseActiveChats extends AppCompatActivity {
 
                 if (res.size()>0){
                     provider = SingleChatManager.deserializeFromJson(res.get(0));
-                    Log.d("PExtracted", provider.toString());
-
                 }else{
                     ChatInfo chat_info = new ChatInfo();
                     provider = new SingleChatManager("Nirmal", "Bob", chat_info);;

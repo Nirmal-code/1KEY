@@ -6,15 +6,14 @@ import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.BoardiesITSolutions.AndroidMySQLConnector.IResultInterface;
-import com.BoardiesITSolutions.AndroidMySQLConnector.ResultSet;
-import com.BoardiesITSolutions.AndroidMySQLConnector.Statement;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 import com.example.d4_3a04.database.IResultInterfaceImp;
 
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,37 +43,42 @@ public class Cryptosystem extends AppCompatActivity {
     }
 
     public static void updateEntry(SingleChatManager provider, String employee_id, String other_employee){
-//        mysqlConnection = new Connection("localhost", "root", "NemoC#1029", 3306, "PROVIDERS", new IConnectionInterface());
-//        Statement statement = mysqlConnection.createStatement();
-//        String serialized = SingleChatManager.serializeToJson(provider);
-//
-//        String COMMAND = String.format("INSERT INTO providers (this_employee, other_employee, provider) VALUES (\"%s\", \"%s\", \"%s\");", employee_id, other_employee, serialized );
-//
-//        statement.execute(COMMAND, new IConnectionInterface());
-//        mysqlConnection.close();
+        try {
+            Statement statement = mysqlConnection.createStatement();
+            String serialized = SingleChatManager.serializeToJson(provider);
 
-//        dbh.updateEntry(provider, employee_id, other_employee);
+            String COMMAND = String.format("INSERT INTO providers (this_employee, other_employee, provider) VALUES (\"%s\", \"%s\", \"%s\") ON DUPLICATE KEY UPDATE provider=\"%s\"", employee_id, other_employee, serialized, serialized);
+
+            statement.execute(COMMAND);
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
     }
 
     public static List<String> getNames(String this_employee, String other_employee){
 //        mysqlConnection = new Connection("localhost", "root", "NemoC#1029", 3306, "PROVIDERS", new IConnectionInterface());
 //
         List<String> output = new ArrayList<>();
-//        Statement statement = mysqlConnection.createStatement();
-//
-//        String COMMAND = String.format("SELECT provider " +
-//                                        "FROM PROVIDERS " +
-//                                         String.format(" WHERE this_employee=%s AND other_employee=%s;", this_employee, other_employee));
-//        IResultInterfaceImp res = new IResultInterfaceImp();
-//
-//        statement.executeQuery(COMMAND, res);
-//
-//        ResultSet result = res.getResult();
-//
-//        if (result!=null){
-//            output.add(result.getFields().get(0).toString());
-//        }
-//        mysqlConnection.close();
+        try {
+            // Ensure mysqlConnection is properly initialized and connected
+            Statement statement = mysqlConnection.createStatement();
+
+            String COMMAND = String.format("SELECT provider " +
+                    "FROM providers " +
+                    "WHERE this_employee=\"%s\" AND other_employee=\"%s\";", this_employee, other_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            // Move the cursor to the first row
+            if (result.next()) {
+                // Retrieve the value from the first column of the current row
+                output.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return output;
 
 //        return dbh.getNames(this_employee, other_employee);
