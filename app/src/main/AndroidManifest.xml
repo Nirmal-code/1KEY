@@ -13,7 +13,7 @@
         android:theme="@style/Theme.D4_3A04"
         tools:targetApi="31">
         <activity
-            android:name=".BrowseActiveChats"
+            android:name=".AccountManager.LoginPage"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.D4_3A04">
@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BrowseActiveChats" />
+        <activity android:name=".AccountManager.CreateAccountPage"/>
         <activity android:name=".SingleChatProvider.MessageListActivity" />
     </application>
 

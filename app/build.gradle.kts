@@ -42,6 +42,9 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.3")
     implementation("com.fasterxml.jackson.core:jackson-core:2.10.3")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
+    implementation("androidx.annotation:annotation:1.6.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     compileOnly("org.igniterealtime.smack:smack-android-extensions:4.2.0-alpha3")
     compileOnly("org.igniterealtime.smack:smack-tcp:4.2.0-alpha3")
 
