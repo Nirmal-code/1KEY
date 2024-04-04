@@ -16,6 +16,7 @@ import com.example.d4_3a04.AccountManager.LoginPage;
 import com.example.d4_3a04.BrowseActiveChats;
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
+import com.example.d4_3a04.GPT;
 import com.example.d4_3a04.R;
 import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.SingleChatProviderBinding;
@@ -71,8 +72,10 @@ public class MessageListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText t = (EditText) findViewById(R.id.edit_gchat_message);
 
+                String message = t.getText().toString();
+
                 // Update chat log with provided message.
-                int size = provider.updateChatLog(t.getText().toString());
+                int size = provider.updateChatLog(message, employee_id);
 
                 MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), size-1);
 
@@ -80,6 +83,17 @@ public class MessageListActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(MessageRecycler.getWindowToken(), 0);
 
                 t.getText().clear();
+
+                if (provider.other_employee.equals("GPT")){
+                    try{
+                        String res = GPT.chatGPT(message);
+                        int other_size = provider.updateChatLog(res, provider.other_employee);
+
+                        MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 2), other_size-1);
+                    } catch (Exception e){
+                        throw new RuntimeException(e);
+                    }
+                }
 
 
             }
@@ -104,8 +118,6 @@ public class MessageListActivity extends AppCompatActivity {
     public void loadChat(){
         for (int i=0; i<this.chat_info.getLog_history().size(); i++){
             LogEntity entity = this.chat_info.getLog_history().get(i);
-            Log.d("EMP", entity.employee_id);
-            Log.d("EMP2", this.employee_id);
             if (entity.employee_id.equals(this.employee_id)){
                 MessageAdapter.onBindViewHolder(MessageAdapter.onCreateViewHolder(findViewById(R.id.recycler_gchat), 1), i);
             } else {

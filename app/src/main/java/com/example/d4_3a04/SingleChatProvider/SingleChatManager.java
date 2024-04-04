@@ -39,10 +39,10 @@ public class SingleChatManager implements Serializable {
     }
 
     // Updates the chat log with message and outputs how many logs there are in total.
-    public int updateChatLog(String message){
+    public int updateChatLog(String message, String employee){
         Date date_time = Calendar.getInstance().getTime();
 
-        LogEntity entity = new LogEntity(this.this_employee, message, date_time, "2921902");
+        LogEntity entity = new LogEntity(employee, message, date_time, "2921902");
         chat_info.addLog(entity);
 
         return chat_info.getLog_history().size();

@@ -78,7 +78,6 @@ public class Cryptosystem extends AppCompatActivity {
             String serialized = SingleChatManager.serializeToJson(provider);
             String encrypted_provider = encrypt(serialized);
 
-
             String COMMAND = String.format("INSERT INTO providers (this_employee, other_employee, provider) VALUES (\"%s\", \"%s\", \"%s\") ON DUPLICATE KEY UPDATE provider=\"%s\"", encrypted_employee_id, encrypted_other_employee, encrypted_provider, encrypted_provider);
 
             statement.execute(COMMAND);
