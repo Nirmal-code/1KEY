@@ -54,7 +54,6 @@ public class BrowseActiveChats extends AppCompatActivity {
 
 
         for (String other_employee: other_employee){
-            Log.d("STATUS", other_employee);
             createButton(other_employee, layout);
         }
 
