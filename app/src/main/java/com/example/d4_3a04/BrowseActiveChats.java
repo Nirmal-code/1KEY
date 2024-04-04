@@ -63,11 +63,14 @@ public class BrowseActiveChats extends AppCompatActivity {
         binding.enterSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchProvider.inflate_page_source(BrowseActiveChats.this);
+                Intent intent = new Intent(BrowseActiveChats.this, SearchFor.class);
+                intent.putExtra("this_employee", employee_id);
+                BrowseActiveChats.this.startActivity(intent);
             }
         });
 
     }
+
     public void createButton(String employee_name, LinearLayout layout){
         Button btnTag = new Button(this);
         btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
