@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.d4_3a04.AccountManager.LoginPage;
 import com.example.d4_3a04.BrowseActiveChats;
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
@@ -91,6 +92,8 @@ public class MessageListActivity extends AppCompatActivity {
                 Cryptosystem.updateEntry(provider, employee_id, provider.other_employee);
                 Cryptosystem.updateEntry(provider, provider.other_employee, employee_id);
                 Intent intent = new Intent(MessageListActivity.this, BrowseActiveChats.class);
+
+                intent.putExtra("Employee_id", employee_id);
                 MessageListActivity.this.startActivity(intent);
                 Cryptosystem.disconnectDB();
             }

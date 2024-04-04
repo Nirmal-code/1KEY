@@ -120,8 +120,8 @@ public class Cryptosystem extends AppCompatActivity {
 
     }
 
-    public static String getOtherEmployee(String employee){
-        String output = "";
+    public static List<String> getOtherEmployee(String employee){
+        List<String> output = new ArrayList<>();
         try {
             Statement statement = mysqlConnection.createStatement();
 
@@ -133,13 +133,19 @@ public class Cryptosystem extends AppCompatActivity {
 
             ResultSet result = statement.executeQuery(COMMAND);
 
-            // Move the cursor to the first row
-            if (result.next()) {
-                // Retrieve the value from the first column of the current row
+            while (result.next()){
                 String encrypted_provider = result.getString(1);
                 String provider = decrypt(encrypted_provider);
-                output=provider;
+                output.add(provider);
             }
+
+//            // Move the cursor to the first row
+//            if (result.next()) {
+//                // Retrieve the value from the first column of the current row
+//                String encrypted_provider = result.getString(1);
+//                String provider = decrypt(encrypted_provider);
+//                output.add(provider);
+//            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

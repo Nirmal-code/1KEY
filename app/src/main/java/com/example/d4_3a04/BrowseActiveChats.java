@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +21,7 @@ public class BrowseActiveChats extends AppCompatActivity {
 
     private BrowseActiveChatBinding binding;
     String employee_id;
-    String other_employee;
+    List<String> other_employee;
 
     SingleChatManager provider;
 
@@ -39,34 +41,53 @@ public class BrowseActiveChats extends AppCompatActivity {
         other_employee = Cryptosystem.getOtherEmployee(this.employee_id);
 
         binding = BrowseActiveChatBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbarActiveChat);
 
-        // For testing purposes. Will eventually be able to make requests.
-        if (other_employee.equals("")){
-            binding.enterConvo.setText("Bob");
-            other_employee = "Bob";
-        }else {
-            binding.enterConvo.setText(other_employee);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.all_chats);
+
+
+        for (String other_employee: other_employee){
+            Log.d("STATUS", other_employee);
+            createButton(other_employee, layout);
         }
 
+        BrowseActiveChatBinding.inflate(getLayoutInflater());
 
-        binding.enterConvo.setOnClickListener(new View.OnClickListener() {
+        binding.enterSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchProvider.inflate_page_source(BrowseActiveChats.this);
+            }
+        });
+
+    }
+    public void createButton(String employee_name, LinearLayout layout){
+        Button btnTag = new Button(this);
+        btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        btnTag.setText(employee_name);
+        btnTag.setTag("enter_convo");
+
+        //add button to the layout
+        layout.addView(btnTag);
+
+        btnTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Getting the stored provider for given employee
 
-                List<String> res = Cryptosystem.getProvider(employee_id, other_employee);
+                List<String> res = Cryptosystem.getProvider(employee_id, employee_name);
 
                 // Only creating a new provider if there is no provider for the employee (res.size()=0).
                 if (res.size()>0){
                     provider = SingleChatManager.deserializeFromJson(res.get(0));
-                    provider.set_employee(employee_id, other_employee);
+                    provider.set_employee(employee_id, employee_name);
                 }else{
                     ChatInfo chat_info = new ChatInfo();
-                    provider = new SingleChatManager(employee_id, other_employee, chat_info);;
-                    Cryptosystem.updateEntry(provider,employee_id, other_employee);
+                    provider = new SingleChatManager(employee_id, employee_name, chat_info);;
+                    Cryptosystem.updateEntry(provider,employee_id, employee_name);
                 }
 
                 // Open that conversation using given provider.
@@ -77,11 +98,5 @@ public class BrowseActiveChats extends AppCompatActivity {
             }
         });
 
-        binding.enterSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchProvider.inflate_page_source(BrowseActiveChats.this);
-            }
-        });
     }
 }
