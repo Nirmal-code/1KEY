@@ -1,6 +1,5 @@
 package com.example.d4_3a04.AccountManager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.d4_3a04.AccountManager.Utils.CreationHandler;
 import com.example.d4_3a04.BrowseActiveChats;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 import com.example.d4_3a04.databinding.CreateAccountPageProviderBinding;
@@ -33,14 +33,23 @@ public class CreateAccountPage extends AppCompatActivity {
                 String company_email = binding.companyEmailInput.getText().toString().trim();
                 String password = binding.passwordInput.getText().toString().trim();
 
-                // TODO: validate company email and password for account creation
+                // reset errors
+                binding.companyEmailErrorMsg.setVisibility(View.INVISIBLE);
+                binding.passwordErrorMsg.setVisibility(View.INVISIBLE);
 
-                // navigate to BrowseActiveChats page
-                Intent new_view = new Intent(CreateAccountPage.this, BrowseActiveChats.class);
+                // TODO: validate if company email already exists in DB
 
-                new_view.putExtra("Employee_id", company_email);
-
-                startActivity(new_view);
+                // check if email or password contains any harmful characters
+                CreationHandler creationHandler = new CreationHandler();
+                String validation = creationHandler.validateAccountCredentials(company_email, password);
+                if (validation.isEmpty()) {
+                    Intent new_view = new Intent(CreateAccountPage.this, BrowseActiveChats.class);
+                    startActivity(new_view);
+                } else if (validation.equals("invalid company email")){
+                    binding.companyEmailErrorMsg.setVisibility(View.VISIBLE);
+                } else if (validation.equals("invalid account password")) {
+                    binding.passwordErrorMsg.setVisibility(View.VISIBLE);
+                }
             }
         });
 
