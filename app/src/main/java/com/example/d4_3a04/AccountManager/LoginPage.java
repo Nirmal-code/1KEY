@@ -34,10 +34,13 @@ public class LoginPage extends AppCompatActivity {
                 String password = binding.passwordInput.getText().toString().trim();
 
                 // TODO: validate company email and password
-
-                // navigate to BrowseActiveChats page
-                Intent new_view = new Intent(LoginPage.this, BrowseActiveChats.class);
-                startActivity(new_view);
+                if (false) {
+                    binding.loginError.setVisibility(View.VISIBLE);
+                } else {
+                    // navigate to BrowseActiveChats page
+                    Intent new_view = new Intent(LoginPage.this, BrowseActiveChats.class);
+                    startActivity(new_view);
+                }
             }
         });
 
