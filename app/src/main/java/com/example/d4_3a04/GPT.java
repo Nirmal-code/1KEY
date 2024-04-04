@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GPT {
 
-    // Code adapted from
+    // Code adapted from: https://rollbar.com/blog/how-to-use-chatgpt-api-with-java/
     public static String chatGPT(String prompt) {
         String url = "https://api.openai.com/v1/chat/completions";
         String apiKey = "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";
