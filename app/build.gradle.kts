@@ -46,8 +46,8 @@ dependencies {
     implementation(files("libs/mariadb-java-client-3.3.3.jar"))
     implementation(files("libs/mysql-connector-java-5.1.49.jar"))
 
-    compileOnly("org.igniterealtime.smack:smack-android-extensions:4.2.0-alpha3")
-    compileOnly("org.igniterealtime.smack:smack-tcp:4.2.0-alpha3")
+//    compileOnly("org.igniterealtime.smack:smack-android-extensions:4.2.0-alpha3")
+//    compileOnly("org.igniterealtime.smack:smack-tcp:4.2.0-alpha3")
 
 
     testImplementation("junit:junit:4.13.2")
