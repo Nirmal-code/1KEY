@@ -251,6 +251,66 @@ public class Cryptosystem extends AppCompatActivity {
         }
     }
 
+    public static void addRequest(String requestor, String requestee){
+        try {
+
+            String encrypted_requestee = encrypt(requestee);
+            String encrypted_requestor = encrypt(requestor);
+
+            Statement statement = mysqlConnection.createStatement();
+
+            String COMMAND = String.format("INSERT INTO requests (requestee, requestor) VALUES (\"%s\", \"%s\") ON DUPLICATE KEY UPDATE requestee=\"%s\", requestor=\"%s\"", encrypted_requestee, encrypted_requestor, encrypted_requestee, encrypted_requestor);
+
+            statement.execute(COMMAND);
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> getRequests(String email){
+        try {
+            List<String> output = new ArrayList<>();
+
+            Statement statement = mysqlConnection.createStatement();
+
+            String encrypted_this_employee = encrypt(email);
+
+            String COMMAND = String.format("SELECT requestor " +
+                    "FROM requests " +
+                    "WHERE requestee=\"%s\";", encrypted_this_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            while (result.next()){
+                String encrypted_requestor = result.getString(1);
+                output.add(decrypt(encrypted_requestor));
+            }
+
+            return output;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void removeRequest(String requestor, String requestee){
+        try {
+
+            String encrypted_requestee = encrypt(requestee);
+            String encrypted_requestor = encrypt(requestor);
+
+            Statement statement = mysqlConnection.createStatement();
+
+            String COMMAND = String.format("DELETE FROM requests where requestor=\"%s\" AND requestee=\"%s\";", encrypted_requestor, encrypted_requestee);
+
+            statement.execute(COMMAND);
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     // Encrypt and Decrypt code is obtained from open source repository: https://github.com/saeed74/Android-DES-Encryption/tree/master?tab=Apache-2.0-1-ov-file#readme
     // Repository has apache-2.0 licence. So its fine to use their code.
     // Uses DNS protocol.

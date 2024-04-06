@@ -29,6 +29,8 @@
         <activity android:name=".AccountManager.CreateAccountPage"/>
         <activity android:name=".SingleChatProvider.MessageListActivity" />
         <activity android:name=".BrowseActiveChats.SearchFor" />
+        <activity android:name=".BrowseActiveChats.BrowseRequests" />
+
     </application>
 
 </manifest>

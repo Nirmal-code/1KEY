@@ -70,6 +70,15 @@ public class BrowseActiveChats extends AppCompatActivity {
             }
         });
 
+        binding.checkRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BrowseActiveChats.this, BrowseRequests.class);
+                intent.putExtra("Employee_id", employee_id);
+                BrowseActiveChats.this.startActivity(intent);
+            }
+        });
+
     }
 
     public void createButton(String employee_name, LinearLayout layout){
