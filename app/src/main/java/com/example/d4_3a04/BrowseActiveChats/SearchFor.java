@@ -72,8 +72,11 @@ public class SearchFor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Getting the stored provider for given employee
-
-                Cryptosystem.addRequest(employee, email);
+                if (email.equals("GPT")){
+                    createConvo("GPT");
+                }else{
+                    Cryptosystem.addRequest(employee, email);
+                }
             }
         });
 
