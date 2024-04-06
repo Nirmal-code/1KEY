@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.d4_3a04.BrowseActiveChats;
+import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.LoginPageProviderBinding;
 
 public class LoginPage extends AppCompatActivity {
@@ -18,6 +19,8 @@ public class LoginPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Cryptosystem.startDB(this);
 
         binding = LoginPageProviderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -34,7 +37,7 @@ public class LoginPage extends AppCompatActivity {
                 String password = binding.passwordInput.getText().toString().trim();
 
                 // TODO: validate company email and password
-                if (false) {
+                if (!Cryptosystem.authenticateUser(company_email, password)) {
                     binding.loginError.setVisibility(View.VISIBLE);
                 } else {
                     // navigate to BrowseActiveChats page

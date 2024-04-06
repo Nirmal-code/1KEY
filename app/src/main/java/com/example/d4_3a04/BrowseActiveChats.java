@@ -93,7 +93,7 @@ public class BrowseActiveChats extends AppCompatActivity {
                 }else{
                     ChatInfo chat_info = new ChatInfo();
                     provider = new SingleChatManager(employee_id, employee_name, chat_info);;
-                    Cryptosystem.updateEntry(provider,employee_id, employee_name);
+                    Cryptosystem.updateProvider(provider,employee_id, employee_name);
                 }
 
                 // Open that conversation using given provider.

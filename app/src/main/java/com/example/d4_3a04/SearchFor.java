@@ -54,8 +54,8 @@ public class SearchFor extends AppCompatActivity {
         ChatInfo info = new ChatInfo();
         SingleChatManager provider = new SingleChatManager(employee, other_employee, info);
 
-        Cryptosystem.updateEntry(provider, employee, other_employee);
-        Cryptosystem.updateEntry(provider, other_employee, employee);
+        Cryptosystem.updateProvider(provider, employee, other_employee);
+        Cryptosystem.updateProvider(provider, other_employee, employee);
 
         Intent new_view = new Intent(SearchFor.this, BrowseActiveChats.class);
 

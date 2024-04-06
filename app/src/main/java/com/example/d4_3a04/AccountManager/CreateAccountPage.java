@@ -11,13 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.d4_3a04.AccountManager.Utils.CreationHandler;
 import com.example.d4_3a04.BrowseActiveChats;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
+import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.CreateAccountPageProviderBinding;
 
 public class CreateAccountPage extends AppCompatActivity {
     private CreateAccountPageProviderBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Cryptosystem.startDB(this);
 
         binding = com.example.d4_3a04.databinding.CreateAccountPageProviderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -37,14 +41,19 @@ public class CreateAccountPage extends AppCompatActivity {
                 binding.companyEmailErrorMsg.setVisibility(View.INVISIBLE);
                 binding.passwordErrorMsg.setVisibility(View.INVISIBLE);
 
-                // TODO: validate if company email already exists in DB
-
                 // check if email or password contains any harmful characters
                 CreationHandler creationHandler = new CreationHandler();
                 String validation = creationHandler.validateAccountCredentials(company_email, password);
+
+
                 if (validation.isEmpty()) {
-                    Intent new_view = new Intent(CreateAccountPage.this, BrowseActiveChats.class);
-                    startActivity(new_view);
+                    Boolean res = Cryptosystem.addUser(company_email, password);
+                    if (!res){
+                        binding.companyEmailErrorMsg.setVisibility(View.VISIBLE);
+                    }else{
+                        Intent new_view = new Intent(CreateAccountPage.this, BrowseActiveChats.class);
+                        startActivity(new_view);
+                    }
                 } else if (validation.equals("invalid company email")){
                     binding.companyEmailErrorMsg.setVisibility(View.VISIBLE);
                 } else if (validation.equals("invalid account password")) {

@@ -68,7 +68,7 @@ public class Cryptosystem extends AppCompatActivity {
     }
 
     // Adds entry into the table if not already there. Otherwise updates the provider entry.
-    public static void updateEntry(SingleChatManager provider, String employee_id, String other_employee){
+    public static void updateProvider(SingleChatManager provider, String employee_id, String other_employee){
         try {
 
             String encrypted_employee_id = encrypt(employee_id);
@@ -138,18 +138,70 @@ public class Cryptosystem extends AppCompatActivity {
                 output.add(provider);
             }
 
-//            // Move the cursor to the first row
-//            if (result.next()) {
-//                // Retrieve the value from the first column of the current row
-//                String encrypted_provider = result.getString(1);
-//                String provider = decrypt(encrypted_provider);
-//                output.add(provider);
-//            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         return output;
+    }
+
+    public static boolean authenticateUser(String email, String password){
+        try {
+            Statement statement = mysqlConnection.createStatement();
+
+            String encrypted_this_employee = encrypt(email);
+
+            String COMMAND = String.format("SELECT password " +
+                    "FROM users " +
+                    "WHERE email=\"%s\";", encrypted_this_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            if (result.next()){
+                String encrypted_password = result.getString(1);
+                String provided_encrypted_password = encrypt(password);
+                if (encrypted_password.equals(provided_encrypted_password)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    public static boolean addUser(String email, String password){
+        try {
+            String output = null;
+            Statement statement = mysqlConnection.createStatement();
+
+            String encrypted_this_employee = encrypt(email);
+
+            String COMMAND = String.format("SELECT email " +
+                    "FROM users " +
+                    "WHERE email=\"%s\";", encrypted_this_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            if (result.next()){
+                String encrypted_provider = result.getString(1);
+                String provider = decrypt(encrypted_provider);
+                return false;
+            } else{
+                String encrypted_password = encrypt(password);
+                String INSERT = String.format("INSERT INTO users (email, password) VALUES (\"%s\", \"%s\");", encrypted_this_employee, encrypted_password);
+                statement.execute(INSERT);
+                return true;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Encrypt and Decrypt code is obtained from open source repository: https://github.com/saeed74/Android-DES-Encryption/tree/master?tab=Apache-2.0-1-ov-file#readme

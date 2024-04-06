@@ -103,8 +103,8 @@ public class MessageListActivity extends AppCompatActivity {
         binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cryptosystem.updateEntry(provider, employee_id, provider.other_employee);
-                Cryptosystem.updateEntry(provider, provider.other_employee, employee_id);
+                Cryptosystem.updateProvider(provider, employee_id, provider.other_employee);
+                Cryptosystem.updateProvider(provider, provider.other_employee, employee_id);
                 Intent intent = new Intent(MessageListActivity.this, BrowseActiveChats.class);
 
                 intent.putExtra("Employee_id", employee_id);
