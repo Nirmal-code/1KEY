@@ -144,7 +144,12 @@ public class BrowseRequests extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Getting the stored provider for given employee
-                Cryptosystem.removeRequest(employee_id, other_employee);
+                Cryptosystem.removeRequest(other_employee, employee_id);
+
+                Intent new_view = new Intent(BrowseRequests.this, BrowseActiveChats.class);
+
+                new_view.putExtra("Employee_id", employee_id);
+                startActivity(new_view);
             }
         });
 
