@@ -1,6 +1,10 @@
 package com.example.d4_3a04.BrowseActiveChats;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +15,10 @@ import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.SearchForBinding;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchFor extends AppCompatActivity {
     SearchForBinding binding;
 
@@ -19,31 +27,62 @@ public class SearchFor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        Cryptosystem.startDB(this);
+
         Intent intent = getIntent();
+
+        this.employee=intent.getStringExtra("this_employee");
 
         binding = SearchForBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SearchView sv = (SearchView) findViewById(R.id.searchView);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.ListView);
 
 
-        this.employee=intent.getStringExtra("this_employee");
+        List<String> all_employees = Cryptosystem.getUsers(this.employee);
 
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        for (String employee: all_employees){
+            createBox(employee, layout);
+        }
+
+
+//        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+////                Log.d("res", query);
+//                createConvo(query);
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//
+//        });
+
+
+    }
+
+    protected void createBox(String email, LinearLayout view){
+        Button btnTag = new Button(this);
+        btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        btnTag.setText(email);
+        btnTag.setTag("start-convo");
+
+        view.addView(btnTag);
+
+        btnTag.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-//                Log.d("res", query);
-                createConvo(query);
-
-                return true;
+            public void onClick(View view) {
+                // Getting the stored provider for given employee
+                createConvo(email);
             }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-
         });
+
 
 
     }

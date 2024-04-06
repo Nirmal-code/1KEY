@@ -145,6 +145,29 @@ public class Cryptosystem extends AppCompatActivity {
         return output;
     }
 
+    public static List<String> getUsers(String employee_id){
+        try {
+            List<String> output = new ArrayList<>();
+            Statement statement = mysqlConnection.createStatement();
+
+            String encrypted_this_employee = encrypt(employee_id);
+
+            String COMMAND = String.format("SELECT email " +
+                    "FROM users " +
+                    "WHERE email<>\"%s\";", encrypted_this_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            while (result.next()){
+                String decrypted_email = decrypt(result.getString(1));
+                output.add(decrypted_email);
+            }
+            return output;
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public static boolean authenticateUser(String email, String password){
         try {
             Statement statement = mysqlConnection.createStatement();
