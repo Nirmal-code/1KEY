@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.d4_3a04.BrowseActiveChats;
+import com.example.d4_3a04.BrowseActiveChats.BrowseActiveChats;
 import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.LoginPageProviderBinding;
 

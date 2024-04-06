@@ -1,14 +1,12 @@
-package com.example.d4_3a04;
+package com.example.d4_3a04.BrowseActiveChats;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.d4_3a04.AccountManager.LoginPage;
 import com.example.d4_3a04.DataTypes.ChatInfo;
-import com.example.d4_3a04.SingleChatProvider.MessageListActivity;
+import com.example.d4_3a04.R;
 import com.example.d4_3a04.SingleChatProvider.SingleChatManager;
 import com.example.d4_3a04.database.Cryptosystem;
 import com.example.d4_3a04.databinding.SearchForBinding;

@@ -25,10 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BrowseActiveChats" />
+        <activity android:name=".BrowseActiveChats.BrowseActiveChats" />
         <activity android:name=".AccountManager.CreateAccountPage"/>
         <activity android:name=".SingleChatProvider.MessageListActivity" />
-        <activity android:name=".SearchFor" />
+        <activity android:name=".BrowseActiveChats.SearchFor" />
     </application>
 
 </manifest>

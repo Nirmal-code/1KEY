@@ -3,7 +3,6 @@ package com.example.d4_3a04.SingleChatProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -12,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.d4_3a04.AccountManager.LoginPage;
-import com.example.d4_3a04.BrowseActiveChats;
+import com.example.d4_3a04.BrowseActiveChats.BrowseActiveChats;
 import com.example.d4_3a04.DataTypes.ChatInfo;
 import com.example.d4_3a04.DataTypes.LogEntity;
 import com.example.d4_3a04.GPT;
