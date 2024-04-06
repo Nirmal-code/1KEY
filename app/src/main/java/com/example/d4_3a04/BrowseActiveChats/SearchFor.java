@@ -31,6 +31,7 @@ public class SearchFor extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+
         this.employee=intent.getStringExtra("this_employee");
 
         binding = SearchForBinding.inflate(getLayoutInflater());
@@ -42,9 +43,19 @@ public class SearchFor extends AppCompatActivity {
 
         List<String> all_employees = Cryptosystem.getUsers(this.employee);
 
+        createBox("GPT", layout);
         for (String employee: all_employees){
             createBox(employee, layout);
         }
+
+        binding.backBrowse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchFor.this, BrowseActiveChats.class);
+                intent.putExtra("Employee_id", employee);
+                SearchFor.this.startActivity(intent);
+            }
+        });
 
 
 //        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
