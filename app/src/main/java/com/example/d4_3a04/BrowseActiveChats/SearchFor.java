@@ -41,7 +41,7 @@ public class SearchFor extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.ListView);
 
 
-        List<String> all_employees = Cryptosystem.getUsers(this.employee);
+        List<String> all_employees = Cryptosystem.getNonConvoUsers(this.employee);
 
         createBox("GPT", layout);
         for (String employee: all_employees){
@@ -56,24 +56,6 @@ public class SearchFor extends AppCompatActivity {
                 SearchFor.this.startActivity(intent);
             }
         });
-
-
-//        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-////                Log.d("res", query);
-//                createConvo(query);
-//
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//
-//        });
-
 
     }
 

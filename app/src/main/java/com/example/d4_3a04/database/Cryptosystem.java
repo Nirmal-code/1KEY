@@ -168,6 +168,30 @@ public class Cryptosystem extends AppCompatActivity {
         }
     }
 
+    public static List<String> getNonConvoUsers(String employee_id){
+        try {
+            List<String> output = new ArrayList<>();
+            Statement statement = mysqlConnection.createStatement();
+
+            String encrypted_this_employee = encrypt(employee_id);
+
+            String COMMAND = String.format("SELECT u.email " +
+                    "FROM users u " +
+                    "WHERE u.email NOT IN (SELECT other_employee FROM providers p WHERE p.this_employee=\"%s\") "+
+                    "AND u.email<>\"%s\";", encrypted_this_employee, encrypted_this_employee);
+
+            ResultSet result = statement.executeQuery(COMMAND);
+
+            while (result.next()){
+                String decrypted_email = decrypt(result.getString(1));
+                output.add(decrypted_email);
+            }
+            return output;
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public static boolean authenticateUser(String email, String password){
         try {
             Statement statement = mysqlConnection.createStatement();

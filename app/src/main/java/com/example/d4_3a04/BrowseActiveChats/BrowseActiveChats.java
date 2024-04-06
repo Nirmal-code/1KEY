@@ -1,7 +1,10 @@
 package com.example.d4_3a04.BrowseActiveChats;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -71,7 +74,27 @@ public class BrowseActiveChats extends AppCompatActivity {
 
     public void createButton(String employee_name, LinearLayout layout){
         Button btnTag = new Button(this);
-        btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        // A bunch of button layout styling
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        int marginVertical = getResources().getDimensionPixelSize(R.dimen.button_vertical_margin);
+        layoutParams.setMargins(0, marginVertical, 0, marginVertical);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+
+        btnTag.setLayoutParams(layoutParams);
+
+        btnTag.setBackgroundResource(R.drawable.chat_bubble);
+
+        int paddingStartEnd = getResources().getDimensionPixelSize(R.dimen.button_horizontal_padding);
+        int paddingTopBottom = getResources().getDimensionPixelSize(R.dimen.button_vertical_padding);
+        btnTag.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+
+        btnTag.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        btnTag.setTextColor(Color.BLACK);
+
+        // End of button styling.
         btnTag.setText(employee_name);
         btnTag.setTag("enter_convo");
 
