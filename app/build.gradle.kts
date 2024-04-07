@@ -43,6 +43,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.10.3")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
 
+
     implementation(files("libs/mariadb-java-client-3.3.3.jar"))
     implementation(files("libs/mysql-connector-java-5.1.49.jar"))
 
