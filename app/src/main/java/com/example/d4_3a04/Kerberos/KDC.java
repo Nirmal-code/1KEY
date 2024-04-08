@@ -99,7 +99,7 @@ public class KDC {
 
             // Also create the Ticket Granting Ticket, encrypted using a server-side Ticket Granting Service Key
             // The ticket is valid for 1 day. Client address is not included.
-            @SuppressLint({"NewApi", "LocalSuppress"}) String ticketGrantingTicket  = clientTGSKey + " " + uid + OffsetDateTime.now().plusDays(1);
+            @SuppressLint({"NewApi", "LocalSuppress"}) String ticketGrantingTicket  = clientTGSKey + " " + uid + " " + OffsetDateTime.now().plusDays(1);
             // Error is because IDE assumes this will be ran on android. This KDC in practical application will be ran on a secure server.
             String encTGT = encrypt(ticketGrantingTicket, keyTGS);
 
@@ -107,8 +107,45 @@ public class KDC {
             output.write("S" + encSessionKey + "|" + encTGT + "|");
         }
 
-        private void ticketGrantingService(InputStreamReader input){
+        private void ticketGrantingService(InputStreamReader input) throws IOException {
+            OutputStreamWriter output = new OutputStreamWriter(client.getOutputStream());
 
+            // Step 1: Receive encrypted TGT and Authenticator message
+            String TGT = "";
+            String authoReq = "";
+            while(true){
+                char c = (char) input.read();
+                if(c == '|')
+                    break;
+                TGT += c;
+            }
+            while(true){
+                char c = (char) input.read();
+                if(c == '|')
+                    break;
+                authoReq += c;
+            }
+
+            // Step 2: Decrypt the messages
+            // TGT: decrypt using TGS key
+            String decTGT = decrypt(TGT, keyTGS);
+            String[] tokenizedTGT = decTGT.split(" ");
+
+            // Authenticator message: decrypt using session key from TGT
+            String decAuthoReq = decrypt(authoReq, tokenizedTGT[0]);
+            String[] tokenizedDecAuthoReq = decAuthoReq.split(" ");
+
+            if(tokenizedTGT[1] != tokenizedDecAuthoReq[0]){  // Auth fail
+                output.write("F");
+                return;
+            }
+
+            // Step 3: Send session key and service ticket
+            String clientServiceKey = "pretendItsRandom2";
+            String serviceTicket = clientServiceKey + " " + tokenizedTGT[1] + " " + tokenizedTGT[2];
+            String encSessionKey = encrypt(clientServiceKey, tokenizedTGT[0]);
+
+            output.write("S" + serviceTicket + "|" + encSessionKey + "|");
         }
     }
     // Encrypt and Decrypt code is obtained from open source repository: https://github.com/saeed74/Android-DES-Encryption/tree/master?tab=Apache-2.0-1-ov-file#readme
